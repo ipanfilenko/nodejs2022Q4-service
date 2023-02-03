@@ -10,9 +10,9 @@ const pathToDocFile = './doc/api.yaml';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const docFile = await readFile(pathToDocFile, 'utf8');
+  const docFile = await readFile(pathToDocFile, 'utf8'); // TODO: perhaps we need to write documentation (not read)
 
-  SwaggerModule.setup('doc', app, parse(docFile)); // TODO: perhaps we need to write documentation (not read)
+  SwaggerModule.setup('doc', app, parse(docFile));
 
   await app.listen(4000);
 }
