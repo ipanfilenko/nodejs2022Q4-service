@@ -10,7 +10,7 @@ import {
   HttpStatus,
   NotFoundException,
   BadRequestException,
-  ForbiddenException
+  ForbiddenException,
 } from '@nestjs/common';
 import { validate } from 'uuid';
 import { ArtistService } from './artist.service';
@@ -55,7 +55,8 @@ export class ArtistController {
       throw new BadRequestException('bad request');
     }
 
-    if (!ArtistDTO.name || typeof ArtistDTO.name !== 'string') { // TODO: should work with DTO
+    if (!ArtistDTO.name || typeof ArtistDTO.name !== 'string') {
+      // TODO: should work with DTO
       throw new BadRequestException('bad request');
     }
 
