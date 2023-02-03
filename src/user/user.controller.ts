@@ -10,7 +10,7 @@ import {
   HttpStatus,
   NotFoundException,
   BadRequestException,
-  ForbiddenException
+  ForbiddenException,
 } from '@nestjs/common';
 import { validate } from 'uuid';
 import { UserService } from './user.service';
@@ -52,7 +52,6 @@ export class UserController {
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }

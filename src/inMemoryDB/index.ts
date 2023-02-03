@@ -6,47 +6,51 @@ import { v4 as uuidv4 } from 'uuid';
 let users = [] as User[];
 
 export const inMemoryDB = {
-    findAll: () => users,
-    findOne: (id: string) => {
-        return users.find((_user: User) => _user.id === id);
-    },
-    create: (user: CreateUserDto) => {
-        const newUser: User = {
-            login: user.login,
-            password: user.password,
-            id: uuidv4(),
-            version: 1,
-            createdAt: Date.now(),
-            updatedAt: Date.now()
-        };
-        
-        users.push(newUser);
+  findAll: () => users,
+  findOne: (id: string) => {
+    return users.find((_user: User) => _user.id === id);
+  },
+  create: (user: CreateUserDto) => {
+    const newUser: User = {
+      login: user.login,
+      password: user.password,
+      id: uuidv4(),
+      version: 1,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
 
-        const { password, ...userWithoutPassword } = newUser;
+    users.push(newUser);
 
-        return userWithoutPassword;
-    },
-    update: (user: UpdateUserDto, selectedUser: User) => {
-        const selectedUserWithPassword = users.find((_user: User) => _user.id === selectedUser.id);
+    const { password, ...userWithoutPassword } = newUser;
 
-        if (selectedUserWithPassword.password !== user.oldPassword) {
-            throw 'Incorrect password';
-        }
+    return userWithoutPassword;
+  },
+  update: (user: UpdateUserDto, selectedUser: User) => {
+    const selectedUserWithPassword = users.find(
+      (_user: User) => _user.id === selectedUser.id,
+    );
 
-        const updatedUser = {
-            ...selectedUserWithPassword,
-            password: user.newPassword,
-            updatedAt: Date.now(),
-            version: selectedUserWithPassword.version + 1
-        };
+    if (selectedUserWithPassword.password !== user.oldPassword) {
+      throw 'Incorrect password';
+    }
 
-        users = users.map((_user: User) => _user.id === updatedUser.id ? { ...updatedUser } : { ..._user } );
+    const updatedUser = {
+      ...selectedUserWithPassword,
+      password: user.newPassword,
+      updatedAt: Date.now(),
+      version: selectedUserWithPassword.version + 1,
+    };
 
-        const { password, ...userWithoutPassword } = updatedUser;
+    users = users.map((_user: User) =>
+      _user.id === updatedUser.id ? { ...updatedUser } : { ..._user },
+    );
 
-        return userWithoutPassword;
-    },
-    remove: (id: string) => {
-        users = users.filter((_user: User) => _user.id !== id);
-    },
-}
+    const { password, ...userWithoutPassword } = updatedUser;
+
+    return userWithoutPassword;
+  },
+  remove: (id: string) => {
+    users = users.filter((_user: User) => _user.id !== id);
+  },
+};

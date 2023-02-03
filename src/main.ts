@@ -7,6 +7,7 @@ import { parse } from 'yaml';
 import { AppModule } from './app.module';
 
 const pathToDocFile = './doc/api.yaml';
+const PORT = process.env['PORT'] || 4000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +15,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('doc', app, parse(docFile));
 
-  await app.listen(4000);
+  await app.listen(PORT);
 }
 
 bootstrap();
