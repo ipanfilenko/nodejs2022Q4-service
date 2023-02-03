@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { inMemoryDB } from '../inMemoryDB';
+import { UserStore } from '../inMemoryDB';
 import { User } from './dto/user.dto'; // TODO: use user entity
 
 @Injectable()
 export class UserService {
   create(createUserDto: CreateUserDto) {
-    return inMemoryDB.create(createUserDto);
+    return UserStore.create(createUserDto);
   }
 
   findAll() {
-    return inMemoryDB.findAll();
+    return UserStore.findAll();
   }
 
   findOne(id: string) {
-    return inMemoryDB.findOne(id);
+    return UserStore.findOne(id);
   }
 
   update(updateUserDto: UpdateUserDto, selectedUser: User) {
-    return inMemoryDB.update(updateUserDto, selectedUser);
+    return UserStore.update(updateUserDto, selectedUser);
   }
 
   remove(id: string) {
-    return inMemoryDB.remove(id);
+    return UserStore.remove(id);
   }
 }

@@ -1,5 +1,6 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 
 import { readFile } from 'node:fs/promises';
 import { parse } from 'yaml';
@@ -14,6 +15,8 @@ async function bootstrap() {
   const docFile = await readFile(pathToDocFile, 'utf8'); // TODO: perhaps we need to write documentation (not read)
 
   SwaggerModule.setup('doc', app, parse(docFile));
+
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   await app.listen(PORT);
 }
