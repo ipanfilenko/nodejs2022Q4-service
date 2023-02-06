@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTrackDto } from './dto/create-track.dto';
-import { UpdateTrackDto } from './dto/update-track.dto';
+import { TrackStore } from '../inMemoryDB';
+import { Track } from './dto/track.dto';
 
 @Injectable()
 export class TrackService {
-  create(createTrackDto: CreateTrackDto) {
-    return 'This action adds a new track';
+  create(createTrackDto: Track) {
+    return TrackStore.create(createTrackDto);
   }
 
   findAll() {
-    return `This action returns all track`;
+    return TrackStore.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} track`;
+  findOne(id: string) {
+    return TrackStore.findOne(id);
   }
 
-  update(id: number, updateTrackDto: UpdateTrackDto) {
-    return `This action updates a #${id} track`;
+  update(updateTrackDto: Track, selectedTrack: Track) {
+    return TrackStore.update(updateTrackDto, selectedTrack);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} track`;
+  remove(id: string) {
+    return TrackStore.remove(id);
   }
 }

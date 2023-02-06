@@ -3,40 +3,87 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
+import { validate } from 'uuid';
 import { TrackService } from './track.service';
-import { CreateTrackDto } from './dto/create-track.dto';
-import { UpdateTrackDto } from './dto/update-track.dto';
+import { Track } from './dto/track.dto';
 
 @Controller('track')
 export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
   @Post()
-  create(@Body() createTrackDto: CreateTrackDto) {
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() createTrackDto: Track) {
     return this.trackService.create(createTrackDto);
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   findAll() {
     return this.trackService.findAll();
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
-    return this.trackService.findOne(+id);
+    if (!validate(id)) {
+      throw new BadRequestException('bad request');
+    }
+
+    const selectedTrack = this.trackService.findOne(id);
+
+    if (!selectedTrack) {
+      throw new NotFoundException('not found');
+    }
+
+    return selectedTrack;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTrackDto: UpdateTrackDto) {
-    return this.trackService.update(+id, updateTrackDto);
+  @Put(':id')
+  @HttpCode(HttpStatus.OK)
+  update(@Param('id') id: string, @Body() updateTrackDto: Track) {
+    if (!validate(id)) {
+      throw new BadRequestException('bad request');
+    }
+
+
+    if (!updateTrackDto.name || typeof updateTrackDto.name !== 'string') {
+      // TODO: should work with DTO
+      throw new BadRequestException('bad request');
+    }
+
+    const selectedTrack = this.trackService.findOne(id);
+
+    if (!selectedTrack) {
+      throw new NotFoundException('not found');
+    }
+
+    const updatedAlbum = this.trackService.update(selectedTrack, updateTrackDto);
+    return updatedAlbum;
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string) {
-    return this.trackService.remove(+id);
+    if (!validate(id)) {
+      throw new BadRequestException('bad request');
+    }
+
+    const selectedTrack = this.trackService.findOne(id);
+
+    if (!selectedTrack) {
+      throw new NotFoundException('not found');
+    }
+
+    return this.trackService.remove(id);
   }
 }
