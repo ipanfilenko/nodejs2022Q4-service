@@ -34,15 +34,15 @@ export const AlbumStore = {
 
     TrackStore.removeAlbum(id);
 
-    if (favorites.albums.find(album => album.id === id)) {
+    if (favorites.albums.find((album) => album.id === id)) {
       FavoriteStore.remove(id, 'albums');
     }
   },
   removeArtist: (id: string) => {
-    albums.forEach(track => {
+    albums.forEach((track) => {
       if (track.artistId === id) {
         track.artistId = null;
       }
-    })
+    });
   },
 };

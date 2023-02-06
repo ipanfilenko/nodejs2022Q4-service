@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { validate } from 'uuid';
 import { FavoritesService } from './favorites.service';
-import { AlbumService} from '../album/album.service';
+import { AlbumService } from '../album/album.service';
 import { TrackService } from '../track/track.service';
 import { ArtistService } from '../artist/artist.service';
 
@@ -49,7 +49,6 @@ export class FavoritesController {
 
     return this.favoritesService.create('tracks', selectedTrack);
   }
-
 
   @Get('/track/:id')
   @HttpCode(HttpStatus.OK)
@@ -101,7 +100,6 @@ export class FavoritesController {
     return this.favoritesService.create('albums', selectedAlbum);
   }
 
-
   @Get('/album/:id')
   @HttpCode(HttpStatus.OK)
   findOneAlbum(@Param('id') id: string) {
@@ -151,7 +149,6 @@ export class FavoritesController {
 
     return this.favoritesService.create('artists', selectedArtist);
   }
-
 
   @Get('/artist/:id')
   @HttpCode(HttpStatus.OK)

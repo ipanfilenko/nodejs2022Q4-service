@@ -6,7 +6,7 @@ export const favorites = {
 
 export const FavoriteStore = {
   findAll: () => {
-    return favorites
+    return favorites;
   },
   findOne: (id: string, type: string) => {
     const selectedFavorites = favorites[type];
@@ -17,7 +17,9 @@ export const FavoriteStore = {
     return dto;
   },
   remove: (id: string, type: string) => {
-    favorites[type] = favorites[type].filter((_favorite) => _favorite.id !== id)
+    favorites[type] = favorites[type].filter(
+      (_favorite) => _favorite.id !== id,
+    );
 
     return favorites;
   },

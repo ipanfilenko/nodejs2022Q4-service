@@ -31,22 +31,22 @@ export const TrackStore = {
   remove: (id: string) => {
     tracks = tracks.filter((_track: Track) => _track.id !== id);
 
-    if (favorites.tracks.find(track => track.id === id)) {
+    if (favorites.tracks.find((track) => track.id === id)) {
       FavoriteStore.remove(id, 'tracks');
     }
   },
   removeArtist: (id: string) => {
-    tracks.forEach(track => {
+    tracks.forEach((track) => {
       if (track.artistId === id) {
         track.artistId = null;
       }
-    })
+    });
   },
   removeAlbum: (id: string) => {
-    tracks.forEach(track => {
+    tracks.forEach((track) => {
       if (track.albumId === id) {
         track.albumId = null;
       }
-    })
-  }
+    });
+  },
 };

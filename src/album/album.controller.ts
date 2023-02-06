@@ -65,7 +65,10 @@ export class AlbumController {
       throw new NotFoundException('not found');
     }
 
-    const updatedAlbum = this.albumService.update(selectedAlbum, updateAlbumDto);
+    const updatedAlbum = this.albumService.update(
+      selectedAlbum,
+      updateAlbumDto,
+    );
     return updatedAlbum;
   }
 

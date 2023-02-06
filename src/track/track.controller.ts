@@ -55,7 +55,6 @@ export class TrackController {
       throw new BadRequestException('bad request');
     }
 
-
     if (!updateTrackDto.name || typeof updateTrackDto.name !== 'string') {
       // TODO: should work with DTO
       throw new BadRequestException('bad request');
@@ -67,7 +66,10 @@ export class TrackController {
       throw new NotFoundException('not found');
     }
 
-    const updatedAlbum = this.trackService.update(selectedTrack, updateTrackDto);
+    const updatedAlbum = this.trackService.update(
+      selectedTrack,
+      updateTrackDto,
+    );
     return updatedAlbum;
   }
 
