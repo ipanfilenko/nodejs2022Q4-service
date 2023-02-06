@@ -1,26 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFavoriteDto } from './dto/create-favorite.dto';
-import { UpdateFavoriteDto } from './dto/update-favorite.dto';
+import { FavoriteStore } from '../inMemoryDB';
 
 @Injectable()
 export class FavoritesService {
-  create(createFavoriteDto: CreateFavoriteDto) {
-    return 'This action adds a new favorite';
+  create(type: string, dto: any) {
+    return FavoriteStore.create(type, dto);
   }
 
   findAll() {
-    return `This action returns all favorites`;
+    return FavoriteStore.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} favorite`;
+  findOne(id: string, type: string) {
+    return FavoriteStore.findOne(id, type);
   }
 
-  update(id: number, updateFavoriteDto: UpdateFavoriteDto) {
-    return `This action updates a #${id} favorite`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} favorite`;
+  remove(id: string, type: string) {
+    return FavoriteStore.remove(id, type);
   }
 }

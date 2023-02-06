@@ -10,11 +10,10 @@ import {
   HttpStatus,
   NotFoundException,
   BadRequestException,
-  ForbiddenException,
 } from '@nestjs/common';
 import { validate } from 'uuid';
 import { ArtistService } from './artist.service';
-import { Artist, ArtistDTO } from './dto/artist.dto';
+import { Artist } from './dto/artist.dto';
 
 @Controller('artist')
 export class ArtistController {

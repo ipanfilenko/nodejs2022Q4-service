@@ -10,7 +10,6 @@ import {
   HttpStatus,
   NotFoundException,
   BadRequestException,
-  ForbiddenException,
 } from '@nestjs/common';
 import { validate } from 'uuid';
 import { AlbumService } from './album.service';

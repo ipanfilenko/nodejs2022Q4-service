@@ -1,4 +1,5 @@
 import { Track } from '../track/dto/track.dto';
+import { favorites, FavoriteStore } from './favorites.store';
 import { v4 as uuidv4 } from 'uuid';
 
 let tracks = [] as Track[];
@@ -29,5 +30,9 @@ export const TrackStore = {
   },
   remove: (id: string) => {
     tracks = tracks.filter((_track: Track) => _track.id !== id);
+
+    if (favorites.tracks.find(track => track.id === id)) {
+      FavoriteStore.remove(id, 'tracks');
+    }
   },
 };
