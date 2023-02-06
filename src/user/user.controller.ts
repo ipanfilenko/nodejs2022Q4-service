@@ -52,6 +52,7 @@ export class UserController {
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }

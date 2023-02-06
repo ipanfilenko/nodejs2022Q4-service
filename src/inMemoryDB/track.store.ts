@@ -2,7 +2,7 @@ import { Track } from '../track/dto/track.dto';
 import { favorites, FavoriteStore } from './favorites.store';
 import { v4 as uuidv4 } from 'uuid';
 
-let tracks = [] as Track[];
+export let tracks = [] as Track[];
 
 export const TrackStore = {
   findAll: () => tracks,
@@ -35,4 +35,18 @@ export const TrackStore = {
       FavoriteStore.remove(id, 'tracks');
     }
   },
+  removeArtist: (id: string) => {
+    tracks.forEach(track => {
+      if (track.artistId === id) {
+        track.artistId = null;
+      }
+    })
+  },
+  removeAlbum: (id: string) => {
+    tracks.forEach(track => {
+      if (track.albumId === id) {
+        track.albumId = null;
+      }
+    })
+  }
 };

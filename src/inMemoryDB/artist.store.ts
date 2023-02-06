@@ -1,5 +1,7 @@
 import { Artist } from '../artist/dto/artist.dto';
 import { favorites, FavoriteStore } from './favorites.store';
+import { TrackStore } from './track.store';
+import { AlbumStore } from './album.store';
 import { v4 as uuidv4 } from 'uuid';
 
 let artists = [] as Artist[];
@@ -30,8 +32,10 @@ export const ArtistStore = {
   },
   remove: (id: string) => {
     artists = artists.filter((_artist: Artist) => _artist.id !== id);
-
     
+    TrackStore.removeArtist(id);
+    AlbumStore.removeArtist(id);
+
     if (favorites.artists.find(artist => artist.id === id)) {
       FavoriteStore.remove(id, 'artists');
     }
