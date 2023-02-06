@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAlbumDto } from './dto/create-album.dto';
-import { UpdateAlbumDto } from './dto/update-album.dto';
+import { AlbumStore } from '../inMemoryDB';
+import { Album } from './dto/album.dto';
 
 @Injectable()
 export class AlbumService {
-  create(createAlbumDto: CreateAlbumDto) {
-    return 'This action adds a new album';
+  create(createAlbumDto: Album) {
+    return AlbumStore.create(createAlbumDto);
   }
 
   findAll() {
-    return `This action returns all album`;
+    return AlbumStore.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} album`;
+  findOne(id: string) {
+    return AlbumStore.findOne(id);
   }
 
-  update(id: number, updateAlbumDto: UpdateAlbumDto) {
-    return `This action updates a #${id} album`;
+  update(updateAlbumDto: Album, selectedAlbum: Album) {
+    return AlbumStore.update(updateAlbumDto, selectedAlbum);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} album`;
+  remove(id: string) {
+    return AlbumStore.remove(id);
   }
 }
