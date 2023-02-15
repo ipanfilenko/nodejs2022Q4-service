@@ -8,7 +8,13 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/ipanfilenko/nodejs2022Q4-service.git
+```
+
+## Checkout on correct branch
+
+```
+git checkout feature/task6-nestjs-rest-service
 ```
 
 ## Installing NPM modules
@@ -29,9 +35,9 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 ## Testing
 
+To run all tests without authorization
 After application running open new terminal and enter:
 
-To run all tests without authorization
 
 ```
 npm run test
