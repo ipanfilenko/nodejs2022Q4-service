@@ -21,7 +21,7 @@ services:
       - postgres
   postgres:
     container_name: rss-postgres
-    image: rss-postgres
+    image: ihar13/rss-postgres
     env_file:
       - .env
     build:
@@ -34,14 +34,15 @@ services:
     ports:
         - ${DB_PORT}:${DB_PORT}
     environment:
-      POSTGRES_USER: DB_USER
-      POSTGRES_PASSWORD: DB_PASS
-      POSTGRES_DB: DB_NAME
-      POSTGRES_HOST: DB_HOST
-      POSTGRES_PORT: DB_PORT
-      POSTGRES_DIALECT: DB_DIALECT
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_HOST: ${DB_HOST}
+      POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_DIALECT: ${DB_DIALECT}
     restart: always
 
 networks:
   custom:
     driver: bridge
+    
