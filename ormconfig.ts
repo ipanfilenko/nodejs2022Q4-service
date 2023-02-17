@@ -9,7 +9,8 @@ const typeORMConfig: DataSourceOptions = {
    "username": DB_USER,
    "password": `${DB_PASS}`,
    "database": DB_NAME,
-   // "entities": ['./src/**/entities/*.entity{.ts,.js}'],
+   "entities": ["dist/**/*.entity.js"],
+   synchronize: true,
    // "migrations": [
    //    "src/migrations/*.{ts,js}"
    // ],

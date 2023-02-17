@@ -18,7 +18,7 @@ import typeORMConfig from '../ormconfig';
     TrackModule,
     AlbumModule,
     FavoritesModule,
-    TypeOrmModule.forRoot(typeORMConfig)
+    TypeOrmModule.forRoot({ ...typeORMConfig, autoLoadEntities: true }),
   ],
   controllers: [AppController],
   providers: [AppService],

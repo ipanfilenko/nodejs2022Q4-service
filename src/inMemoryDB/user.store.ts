@@ -1,4 +1,4 @@
-import { User } from '../user/dto/user.dto';
+import { User } from '../user/entities/user.entity';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { UpdateUserDto } from '../user/dto/update-user.dto';
 import { v4 as uuidv4 } from 'uuid';
