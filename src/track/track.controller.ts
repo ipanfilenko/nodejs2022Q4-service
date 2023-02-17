@@ -10,11 +10,10 @@ import {
   HttpStatus,
   NotFoundException,
   BadRequestException,
-  ForbiddenException,
 } from '@nestjs/common';
 import { validate } from 'uuid';
 import { TrackService } from './track.service';
-import { Track } from './dto/track.dto';
+import { TrackDTO } from './dto/track.dto';
 
 @Controller('track')
 export class TrackController {
@@ -22,24 +21,25 @@ export class TrackController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createTrackDto: Track) {
+  async create(@Body() createTrackDto: TrackDTO) {
+    console.log('!!!', createTrackDto);
     return this.trackService.create(createTrackDto);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  findAll() {
+  async findAll() {
     return this.trackService.findAll();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedTrack = this.trackService.findOne(id);
+    const selectedTrack = await this.trackService.findOne(id);
 
     if (!selectedTrack) {
       throw new NotFoundException('not found');
@@ -50,37 +50,33 @@ export class TrackController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  update(@Param('id') id: string, @Body() updateTrackDto: Track) {
+  async update(@Param('id') id: string, @Body() updateTrackDto: TrackDTO) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    if (!updateTrackDto.name || typeof updateTrackDto.name !== 'string') {
-      // TODO: should work with DTO
-      throw new BadRequestException('bad request');
-    }
-
-    const selectedTrack = this.trackService.findOne(id);
+    const selectedTrack = await this.trackService.findOne(id);
 
     if (!selectedTrack) {
       throw new NotFoundException('not found');
     }
 
-    const updatedAlbum = this.trackService.update(
-      selectedTrack,
-      updateTrackDto,
-    );
-    return updatedAlbum;
+    const updatedTrack= {
+      ...selectedTrack,
+      ...updateTrackDto
+    };
+
+    return this.trackService.update(id, updatedTrack);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedTrack = this.trackService.findOne(id);
+    const selectedTrack = await this.trackService.findOne(id);
 
     if (!selectedTrack) {
       throw new NotFoundException('not found');

@@ -1,4 +1,4 @@
-import { Track } from '../track/dto/track.dto';
+import { Track } from '../track/entities/track.entity';
 import { favorites, FavoriteStore } from './favorites.store';
 import { v4 as uuidv4 } from 'uuid';
 

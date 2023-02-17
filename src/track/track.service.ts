@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { TrackStore } from '../inMemoryDB';
-import { Track } from './dto/track.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { v4 as uuidv4 } from 'uuid';
+import { Repository } from 'typeorm';
+import { TrackDTO } from './dto/track.dto';
+import { Track } from './entities/track.entity';
 
 @Injectable()
 export class TrackService {
-  create(createTrackDto: Track) {
-    return TrackStore.create(createTrackDto);
+  constructor(
+    @InjectRepository(Track)
+    private tracksRepository: Repository<Track>,
+  ) {}
+
+  async create(createTrackDto: TrackDTO) {
+    return this.tracksRepository.save({ ...createTrackDto, id: uuidv4() });
   }
 
-  findAll() {
-    return TrackStore.findAll();
+  async findAll() {
+    return this.tracksRepository.find();
   }
 
-  findOne(id: string) {
-    return TrackStore.findOne(id);
+  async findOne(id: string) {
+    return this.tracksRepository.findOneBy({ id });
   }
 
-  update(updateTrackDto: Track, selectedTrack: Track) {
-    return TrackStore.update(updateTrackDto, selectedTrack);
+  async update(id: string, selectedTrack: TrackDTO) {
+    await this.tracksRepository.update(id, selectedTrack);
+
+    return selectedTrack;
   }
 
-  remove(id: string) {
-    return TrackStore.remove(id);
+  async remove(id: string) {
+    return this.tracksRepository.delete(id);
   }
 }
