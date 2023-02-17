@@ -1,4 +1,4 @@
-import { Album } from '../album/dto/album.dto';
+import { Album } from '../album/entities/album.entity';
 import { favorites, FavoriteStore } from './favorites.store';
 import { TrackStore } from './track.store';
 import { v4 as uuidv4 } from 'uuid';
