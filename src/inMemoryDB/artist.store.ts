@@ -1,4 +1,4 @@
-import { Artist } from '../artist/dto/artist.dto';
+import { Artist } from '../artist/entities/artist.entity';
 import { favorites, FavoriteStore } from './favorites.store';
 import { TrackStore } from './track.store';
 import { AlbumStore } from './album.store';
