@@ -63,10 +63,10 @@ export class AlbumController {
 
     const updatedAlbum = {
       ...selectedAlbum,
-      ...updateAlbumDto
+      ...updateAlbumDto,
     };
 
-    await this.albumService.update(id,updatedAlbum);
+    await this.albumService.update(id, updatedAlbum);
 
     return updatedAlbum;
   }

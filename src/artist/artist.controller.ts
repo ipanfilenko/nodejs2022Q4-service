@@ -68,7 +68,7 @@ export class ArtistController {
 
     const updatedArtist = {
       ...selectedArtist,
-      ...artistDTO
+      ...artistDTO,
     };
 
     return this.artistService.update(id, updatedArtist);

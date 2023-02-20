@@ -10,5 +10,4 @@ import { Artist } from './entities/artist.entity';
   providers: [ArtistService],
   exports: [ArtistService],
 })
-
 export class ArtistModule {}

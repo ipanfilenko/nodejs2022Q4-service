@@ -22,7 +22,6 @@ export class TrackController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createTrackDto: TrackDTO) {
-    console.log('!!!', createTrackDto);
     return this.trackService.create(createTrackDto);
   }
 
@@ -61,9 +60,9 @@ export class TrackController {
       throw new NotFoundException('not found');
     }
 
-    const updatedTrack= {
+    const updatedTrack = {
       ...selectedTrack,
-      ...updateTrackDto
+      ...updateTrackDto,
     };
 
     return this.trackService.update(id, updatedTrack);

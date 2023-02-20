@@ -12,7 +12,7 @@ export class TrackDTO {
   @IsOptional()
   @IsString()
   albumId: string | null; // refers to Album
-  
+
   @IsNumber()
   @IsNotEmpty()
   duration: number; // integer number

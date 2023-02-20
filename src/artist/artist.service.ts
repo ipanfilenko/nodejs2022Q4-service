@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { ArtistDTO } from './dto/artist.dto';
 import { Artist } from './entities/artist.entity';
 
-
 @Injectable()
 export class ArtistService {
   constructor(

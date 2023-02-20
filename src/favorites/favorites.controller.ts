@@ -2,8 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Put,
   Param,
   Delete,
   HttpCode,
@@ -28,7 +26,7 @@ export class FavoritesController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  findAll() {
+  async findAll() {
     return this.favoritesService.findAll();
   }
 
@@ -36,12 +34,12 @@ export class FavoritesController {
 
   @Post('/track/:id')
   @HttpCode(HttpStatus.CREATED)
-  createTrack(@Param('id') id: string) {
+  async createTrack(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedTrack = this.trackService.findOne(id);
+    const selectedTrack = await this.trackService.findOne(id);
 
     if (!selectedTrack) {
       throw new UnprocessableEntityException('not found');
@@ -52,12 +50,12 @@ export class FavoritesController {
 
   @Get('/track/:id')
   @HttpCode(HttpStatus.OK)
-  findOneTrack(@Param('id') id: string) {
+  async findOneTrack(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedTrack = this.trackService.findOne(id);
+    const selectedTrack = await this.trackService.findOne(id);
 
     if (!selectedTrack) {
       throw new UnprocessableEntityException('not found');
@@ -68,12 +66,12 @@ export class FavoritesController {
 
   @Delete('/track/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeTrack(@Param('id') id: string) {
+  async removeTrack(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedTrack = this.trackService.findOne(id);
+    const selectedTrack = await this.trackService.findOne(id);
 
     if (!selectedTrack) {
       throw new UnprocessableEntityException('not found');
@@ -86,12 +84,12 @@ export class FavoritesController {
 
   @Post('/album/:id')
   @HttpCode(HttpStatus.CREATED)
-  createAlbum(@Param('id') id: string) {
+  async createAlbum(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedAlbum = this.albumService.findOne(id);
+    const selectedAlbum = await this.albumService.findOne(id);
 
     if (!selectedAlbum) {
       throw new UnprocessableEntityException('not found');
@@ -102,12 +100,12 @@ export class FavoritesController {
 
   @Get('/album/:id')
   @HttpCode(HttpStatus.OK)
-  findOneAlbum(@Param('id') id: string) {
+  async findOneAlbum(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedAlbum = this.albumService.findOne(id);
+    const selectedAlbum = await this.albumService.findOne(id);
 
     if (!selectedAlbum) {
       throw new UnprocessableEntityException('not found');
@@ -118,12 +116,12 @@ export class FavoritesController {
 
   @Delete('/album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeAlbum(@Param('id') id: string) {
+  async removeAlbum(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedAlbum = this.albumService.findOne(id);
+    const selectedAlbum = await this.albumService.findOne(id);
 
     if (!selectedAlbum) {
       throw new UnprocessableEntityException('not found');
@@ -136,12 +134,12 @@ export class FavoritesController {
 
   @Post('/artist/:id')
   @HttpCode(HttpStatus.CREATED)
-  createArtist(@Param('id') id: string) {
+  async createArtist(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedArtist = this.artistService.findOne(id);
+    const selectedArtist = await this.artistService.findOne(id);
 
     if (!selectedArtist) {
       throw new UnprocessableEntityException('not found');
@@ -152,12 +150,12 @@ export class FavoritesController {
 
   @Get('/artist/:id')
   @HttpCode(HttpStatus.OK)
-  findOneArtist(@Param('id') id: string) {
+  async findOneArtist(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedArtist = this.artistService.findOne(id);
+    const selectedArtist = await this.artistService.findOne(id);
 
     if (!selectedArtist) {
       throw new UnprocessableEntityException('not found');
@@ -168,12 +166,12 @@ export class FavoritesController {
 
   @Delete('/artist/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeArtist(@Param('id') id: string) {
+  async removeArtist(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedArtist = this.artistService.findOne(id);
+    const selectedArtist = await this.artistService.findOne(id);
 
     if (!selectedArtist) {
       throw new UnprocessableEntityException('not found');
