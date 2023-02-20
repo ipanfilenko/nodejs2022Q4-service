@@ -76,6 +76,12 @@ npm run lint
 npm run format
 ```
 
+### Vulnerabilities scanning
+
+```
+npm run scan
+```
+
 ### Debugging in VSCode
 
 Press <kbd>F5</kbd> to debug.
