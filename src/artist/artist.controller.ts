@@ -13,12 +13,16 @@ import {
 } from '@nestjs/common';
 import { validate } from 'uuid';
 import { ArtistService } from './artist.service';
+import { TrackService } from '../track/track.service';
 import { Artist } from './entities/artist.entity';
 import { ArtistDTO } from './dto/artist.dto';
 
 @Controller('artist')
 export class ArtistController {
-  constructor(private readonly artistService: ArtistService) {}
+  constructor(
+    private readonly artistService: ArtistService,
+    private readonly trackService: TrackService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -86,6 +90,14 @@ export class ArtistController {
     if (!selectedArtist) {
       throw new NotFoundException('not found');
     }
+
+    // SMELLS: Need to use relations between tables
+    const allTracks = await this.trackService.findAll();
+    const allTracksWithId = allTracks.filter((track) => track.artistId === id);
+
+    allTracksWithId.forEach(async (track) => {
+      await this.trackService.update(track.id, { ...track, artistId: null });
+    });
 
     return this.artistService.remove(id);
   }
