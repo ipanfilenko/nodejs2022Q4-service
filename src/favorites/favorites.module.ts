@@ -10,6 +10,11 @@ import { Favorite } from './entities/favorite.entity';
 @Module({
   controllers: [FavoritesController],
   providers: [FavoritesService],
-  imports: [AlbumModule, TrackModule, ArtistModule, TypeOrmModule.forFeature([Favorite])],
+  imports: [
+    AlbumModule,
+    TrackModule,
+    ArtistModule,
+    TypeOrmModule.forFeature([Favorite]),
+  ],
 })
 export class FavoritesModule {}
