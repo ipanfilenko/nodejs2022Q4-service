@@ -9,13 +9,13 @@ export const addEventIntoLog = (loggerEvent: Partial<Request & Response>): void 
     const { url, method, params, query, body, statusCode } = loggerEvent;
     
     console.log(`
-        ${url},
-        ${method},
-        ${JSON.stringify(params)},
-        ${JSON.stringify(query)},
-        ${JSON.stringify(body)},
-        ${statusCode}`
-    );
+        URL: ${url},
+        Method: ${method},
+        Params: ${JSON.stringify(params)},
+        Query: ${JSON.stringify(query)},
+        Body: ${JSON.stringify(body)},
+        StatusCode: ${statusCode}
+    `);
 
     stream.once('open', ()  => {
         stream.write(`Date: ${new Date()}\n`);

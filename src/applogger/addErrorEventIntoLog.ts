@@ -9,10 +9,10 @@ export const addErrorEventIntoLog = (loggerEvent: Partial<Request & Response>): 
     });
 
     console.log(`
-        ${url},
-        ${method},
-        ${statusCode}`
-    );
+        URL: ${url},
+        Method: ${method},
+        StatusCode: ${statusCode}
+    `);
 
     stream.once('open', ()  => {
         stream.write(`Date: ${new Date()}\n`);
