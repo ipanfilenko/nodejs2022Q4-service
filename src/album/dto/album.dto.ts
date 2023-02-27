@@ -1,6 +1,15 @@
-export interface Album {
-  id: string; // uuid v4
+import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
+
+export class AlbumDto {
+  @IsNotEmpty()
+  @IsString()
   name: string;
+
+  @IsNotEmpty()
+  @IsNumber()
   year: number;
-  artistId: string | null; // refers to Artist
+
+  @IsOptional()
+  @IsString()
+  artistId: string;
 }

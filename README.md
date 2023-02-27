@@ -26,7 +26,12 @@ npm install
 ## Running application
 
 ```
-npm start
+npm run start:docker
+```
+or
+
+```
+docker compose up
 ```
 
 After starting the app on port (4000 as default) you can open
@@ -69,6 +74,12 @@ npm run lint
 
 ```
 npm run format
+```
+
+### Vulnerabilities scanning
+
+```
+npm run scan
 ```
 
 ### Debugging in VSCode

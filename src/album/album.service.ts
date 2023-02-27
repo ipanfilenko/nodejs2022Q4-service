@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { AlbumStore } from '../inMemoryDB';
-import { Album } from './dto/album.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { v4 as uuidv4 } from 'uuid';
+import { Repository } from 'typeorm';
+import { AlbumDto } from './dto/album.dto';
+import { Album } from './entities/album.entity';
 
 @Injectable()
 export class AlbumService {
-  create(createAlbumDto: Album) {
-    return AlbumStore.create(createAlbumDto);
+  constructor(
+    @InjectRepository(Album)
+    private albumsRepository: Repository<Album>,
+  ) {}
+
+  async create(createAlbumDto: AlbumDto) {
+    return this.albumsRepository.save({ ...createAlbumDto, id: uuidv4() });
   }
 
-  findAll() {
-    return AlbumStore.findAll();
+  async findAll() {
+    return this.albumsRepository.find();
   }
 
-  findOne(id: string) {
-    return AlbumStore.findOne(id);
+  async findOne(id: string) {
+    return this.albumsRepository.findOneBy({ id });
   }
 
-  update(updateAlbumDto: Album, selectedAlbum: Album) {
-    return AlbumStore.update(updateAlbumDto, selectedAlbum);
+  async update(id: string, selectedAlbum: AlbumDto) {
+    await this.albumsRepository.update(id, selectedAlbum);
+
+    return selectedAlbum;
   }
 
-  remove(id: string) {
-    return AlbumStore.remove(id);
+  async remove(id: string) {
+    return this.albumsRepository.delete(id);
   }
 }

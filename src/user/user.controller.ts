@@ -24,6 +24,10 @@ export class UserController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createUserDto: CreateUserDto) {
+    if (!createUserDto.login || !createUserDto.password) {
+      throw new BadRequestException('bad request');
+    }
+
     return this.userService.create(createUserDto);
   }
 
@@ -35,12 +39,12 @@ export class UserController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedUser = this.userService.findOne(id);
+    const selectedUser = await this.userService.findOne(id);
 
     if (!selectedUser) {
       throw new NotFoundException('not found');
@@ -51,7 +55,7 @@ export class UserController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
@@ -60,14 +64,14 @@ export class UserController {
       throw new BadRequestException('bad request');
     }
 
-    const selectedUser = this.userService.findOne(id);
+    const selectedUser = await this.userService.findOne(id);
 
     if (!selectedUser) {
       throw new NotFoundException('not found');
     }
 
     try {
-      const updatedUser = this.userService.update(updateUserDto, selectedUser);
+      const updatedUser = await this.userService.update(id, updateUserDto);
       return updatedUser;
     } catch (e) {
       if (e === 'Incorrect password') {
@@ -78,12 +82,12 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedUser = this.userService.findOne(id);
+    const selectedUser = await this.userService.findOne(id);
 
     if (!selectedUser) {
       throw new NotFoundException('not found');

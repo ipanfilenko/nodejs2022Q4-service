@@ -13,32 +13,37 @@ import {
 } from '@nestjs/common';
 import { validate } from 'uuid';
 import { ArtistService } from './artist.service';
-import { Artist } from './dto/artist.dto';
+import { TrackService } from '../track/track.service';
+import { Artist } from './entities/artist.entity';
+import { ArtistDTO } from './dto/artist.dto';
 
 @Controller('artist')
 export class ArtistController {
-  constructor(private readonly artistService: ArtistService) {}
+  constructor(
+    private readonly artistService: ArtistService,
+    private readonly trackService: TrackService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createArtistDto: Artist) {
+  async create(@Body() createArtistDto: ArtistDTO): Promise<Artist> {
     return this.artistService.create(createArtistDto);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  findAll() {
+  async findAll() {
     return this.artistService.findAll();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedArtist = this.artistService.findOne(id);
+    const selectedArtist = await this.artistService.findOne(id);
 
     if (!selectedArtist) {
       throw new NotFoundException('not found');
@@ -49,37 +54,50 @@ export class ArtistController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  update(@Param('id') id: string, @Body() ArtistDTO: Artist) {
+  async update(@Param('id') id: string, @Body() artistDTO: ArtistDTO) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    if (!ArtistDTO.name || typeof ArtistDTO.name !== 'string') {
+    if (!artistDTO.name || typeof artistDTO.name !== 'string') {
       // TODO: should work with DTO
       throw new BadRequestException('bad request');
     }
 
-    const selectedArtist = this.artistService.findOne(id);
+    const selectedArtist = await this.artistService.findOne(id);
 
     if (!selectedArtist) {
       throw new NotFoundException('not found');
     }
 
-    return this.artistService.update(selectedArtist, ArtistDTO);
+    const updatedArtist = {
+      ...selectedArtist,
+      ...artistDTO,
+    };
+
+    return this.artistService.update(id, updatedArtist);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     if (!validate(id)) {
       throw new BadRequestException('bad request');
     }
 
-    const selectedArtist = this.artistService.findOne(id);
+    const selectedArtist = await this.artistService.findOne(id);
 
     if (!selectedArtist) {
       throw new NotFoundException('not found');
     }
+
+    // SMELLS: Need to use relations between tables
+    const allTracks = await this.trackService.findAll();
+    const allTracksWithId = allTracks.filter((track) => track.artistId === id);
+
+    allTracksWithId.forEach(async (track) => {
+      await this.trackService.update(track.id, { ...track, artistId: null });
+    });
 
     return this.artistService.remove(id);
   }
