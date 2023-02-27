@@ -30,6 +30,7 @@ services:
     networks:
       - custom
     volumes:
+      - ./logs:/usr/app/logs
       - ./pgdata:/var/lib/postgresql/data
     ports:
         - ${DB_PORT}:${DB_PORT}
