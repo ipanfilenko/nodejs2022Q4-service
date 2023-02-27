@@ -10,7 +10,8 @@ export class AppLoggerMiddleware implements NestMiddleware {
     response.on('close', () => {
       const { statusCode } = response;
       const { url, method, params, query, body } = request;
-      const addEvent = statusCode >= 500 ? addErrorEventIntoLog : addEventIntoLog;
+      const addEvent =
+        statusCode >= 500 ? addErrorEventIntoLog : addEventIntoLog;
 
       addEvent({ url, method, params, query, body, statusCode });
     });
@@ -23,7 +24,7 @@ export class AppLoggerMiddleware implements NestMiddleware {
     process.on('unhandledRejection', (err: Error) => {
       addExceptionIntoLog(err);
       process.exit(1);
-    })
+    });
 
     next();
   }
