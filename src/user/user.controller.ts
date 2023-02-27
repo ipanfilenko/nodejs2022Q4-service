@@ -34,6 +34,8 @@ export class UserController {
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
+    throw new Error('qweqw');
+    throw new ForbiddenException('Incorrect password');
     return this.userService.findAll();
   }
 
